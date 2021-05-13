@@ -2,16 +2,11 @@
 
 import argparse
 import glob
-import os
-import re
 from datetime import datetime
 
 # -------------------
 # data definitions
 # -------------------
-# regular expression to identify title line
-TITLE_REGEX = re.compile(
-    r'(?P<open_tag><[^>\w]*title[^>]*>)(?P<old_title>[^<]*)(?P<close_tag><[^>]*/[^>]*title[^>]*>)')
 QUIET = False
 
 
