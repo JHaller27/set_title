@@ -45,42 +45,41 @@ def get_args():
 # -------------------
 # get_sloc_lines
 # -------------------
-def get_sloc_lines(path_glob, program):
+def get_sloc_lines(path, program):
     # pre-pend each line with today's date and program name
     timestamp = datetime.now()
 
     # current day in yyyymmdd format
     yyyymmddDate = timestamp.strftime("%Y%m%d")
 
-    for path in glob.iglob(path_glob):
-        log(f'{path} -> ', end='')
+    log(f'{path} -> ', end='')
 
-        # open file to read and file to append - TBD filename
-        count = 0
-        while True:
-            count += 1
+    # open file to read and file to append - TBD filename
+    count = 0
+    while True:
+        count += 1
 
-            with open(path, 'r') as fpR:
-                line = fpR.readline()
+        with open(path, 'r') as fpR:
+            line = fpR.readline()
 
-            # if line is empty - end of file; get out of loop
-            if not line:
-                break
+        # if line is empty - end of file; get out of loop
+        if not line:
+            break
 
-            # SLOC lines start at line 10
-            if count < 10:
-                continue
+        # SLOC lines start at line 10
+        if count < 10:
+            continue
 
-            # if this is a blank line we're done
-            if line.find(",") < 0:
-                break
+        # if this is a blank line we're done
+        if line.find(",") < 0:
+            break
 
-            # prepend line with today's date and program name
-            new_text = yyyymmddDate + "," + program + "," + line
+        # prepend line with today's date and program name
+        new_text = yyyymmddDate + "," + program + "," + line
 
-            # append line to
-            with open("new.csv", 'a') as fpA:
-                fpA.write(new_text)
+        # append line to
+        with open("new.csv", 'a') as fpA:
+            fpA.write(new_text)
 
     log(f'{count} lines read')
 
