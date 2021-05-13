@@ -4,7 +4,24 @@ import os
 import re
 
 
+# Regex to search for <title> HTML tags
+# Pre-compile to avoid wasting cycles compiling on each loop iteration (for each file)
 TITLE_REGEX = re.compile(r'(?P<open_tag><[^>\w]*title[^>]*>)(?P<old_title>[^<]*)(?P<close_tag><[^>]*/[^>]*title[^>]*>)')
+"""
+Break-down of each regex group from left-to-right:
+    (?P<open_tag><[^>\w]*title[^>]*>)
+        Name the capture-group "open_tag"
+        Look for <title>
+    (?P<old_title>[^<]*)
+        Name the capture-group "old_title"
+        Look for any # of chars that are not a right-angle-bracket
+    (?P<close_tag><[^>]*/[^>]*title[^>]*>)
+        Name the capture-group "close_tag"
+        Lood for </title>
+"""
+
+# Flag to supress progress output
+# Global so that it doesn't need to be passed around to every fn that wants to call log()
 QUIET = False
 
 
