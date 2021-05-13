@@ -55,16 +55,13 @@ def get_sloc_lines(path_glob, program):
     for path in glob.iglob(path_glob):
         log(f'{path} -> ', end='')
 
-        # open file to read
-        fpR = open(path, 'r')
-
-        # open file to append - TBD filename
-        fpA = open("new.csv", 'a')
-
+        # open file to read and file to append - TBD filename
         count = 0
         while True:
             count += 1
-            line = fpR.readline()
+
+            with open(path, 'r') as fpR:
+                line = fpR.readline()
 
             # if line is empty - end of file; get out of loop
             if not line:
@@ -82,7 +79,8 @@ def get_sloc_lines(path_glob, program):
             new_text = yyyymmddDate + "," + program + "," + line
 
             # append line to
-            fpA.write(new_text)
+            with open("new.csv", 'a') as fpA:
+                fpA.write(new_text)
 
     log(f'{count} lines read')
 
