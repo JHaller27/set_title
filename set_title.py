@@ -96,7 +96,7 @@ def main():
     global QUIET
 
     # get & parse arguments
-    args = get_args()  # read arguments - not currently used
+    args = get_args()  # read arguments
     QUIET = args.quiet
 
     # for files in the path - replace the title in the HTML file
