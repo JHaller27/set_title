@@ -4,6 +4,7 @@ import argparse
 import glob
 from datetime import datetime
 from itertools import islice
+import typer
 
 
 # -------------------
@@ -19,37 +20,6 @@ def log(*args, **kwargs):
     # show arguments
     if not QUIET:
         print(*args, **kwargs)
-
-
-# -------------------
-# get_args
-# -------------------
-def get_args():
-    # read arguments
-    parser = argparse.ArgumentParser()
-
-    # input file (eg "path\file.ext")
-    parser.add_argument('input_path', type=str,
-                        help='Path to file to replace (glob-patterns supported)')
-
-    # output file (eg "path\newfile.ext")
-    parser.add_argument('output_path', type=str,
-                        help='Path to new file to write to')
-
-    # program name (eg "737MAX_SCE")
-    parser.add_argument('program', type=str,
-                        help='Program name (eg 737MAX_SCE)')
-
-    # quiet mode - optional
-    parser.add_argument('--quiet', '-q', action='store_true',
-                        help='Silence output')
-
-    # lines to skip
-    parser.add_argument('--skip', '-s', default=10, type=int,
-                        help='Number of lines to skip')
-
-    args = parser.parse_args()
-    return args
 
 
 # -------------------
@@ -85,18 +55,17 @@ def get_sloc_lines(in_path, out_path, program, skip):
 # -------------------
 # main
 # -------------------
-def main():
+def main(input_path: str, output_path: str, program: str, skip: int = 10, quiet: bool = False):
     # main function
     global QUIET
 
     # get & parse arguments
-    args = get_args()  # read arguments
-    QUIET = args.quiet
+    QUIET = quiet
 
     # for files in the path - rewrite SLOC lines to new csv file
-    for in_path in glob.iglob(args.input_path):
-        get_sloc_lines(in_path, args.output_path, args.program, args.skip)
+    for in_path in glob.iglob(input_path):
+        get_sloc_lines(in_path, output_path, program, skip)
 
 
 if __name__ == '__main__':
-    main()
+    typer.run(main)
