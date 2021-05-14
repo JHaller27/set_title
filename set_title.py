@@ -5,6 +5,7 @@ import glob
 from datetime import datetime
 from itertools import islice
 
+
 # -------------------
 # data definitions
 # -------------------
@@ -78,11 +79,10 @@ def get_sloc_lines(path, program, skip):
 
     log(f'{count} lines parsed')
 
+
 # -------------------
 # main
 # -------------------
-
-
 def main():
     # main function
     global QUIET
