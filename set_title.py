@@ -29,8 +29,12 @@ def get_args():
     parser = argparse.ArgumentParser()
 
     # input file (eg "path\file.ext")
-    parser.add_argument('path', type=str,
+    parser.add_argument('input_path', type=str,
                         help='Path to file to replace (glob-patterns supported)')
+
+    # output file (eg "path\newfile.ext")
+    parser.add_argument('output_path', type=str,
+                        help='Path to new file to write to')
 
     # program name (eg "737MAX_SCE")
     parser.add_argument('program', type=str,
@@ -51,16 +55,16 @@ def get_args():
 # -------------------
 # get_sloc_lines
 # -------------------
-def get_sloc_lines(path, program, skip):
+def get_sloc_lines(in_path, out_path, program, skip):
     # pre-pend each line with today's date and program name
     timestamp = datetime.now()
 
     # current day in yyyymmdd format
     yyyymmddDate = timestamp.strftime("%Y%m%d")
 
-    log(f'{path} -> ', end='')
+    log(f'{in_path} -> ', end='')
     # open file to read and file to append - TBD filename
-    with open(path, 'r') as fpR, open(f"new.csv", "a") as fpA:
+    with open(in_path, 'r') as fpR, open(out_path, "a") as fpA:
         count = 0
         for line in islice(fpR, skip, None):
             # if this is a blank line we're done
@@ -90,8 +94,8 @@ def main():
     QUIET = args.quiet
 
     # for files in the path - rewrite SLOC lines to new csv file
-    for path in glob.iglob(args.path):
-        get_sloc_lines(path, args.program, args.skip)
+    for in_path in glob.iglob(args.input_path):
+        get_sloc_lines(in_path, args.output_path, args.program, args.skip)
 
 
 if __name__ == '__main__':
