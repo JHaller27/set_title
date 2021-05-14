@@ -1,4 +1,4 @@
-# Replace the title with the file basename in a .html file delimited by <open_tag>*<close_tag>
+# Prepend a date and program name to each line of a csv, and output to a new file
 
 import argparse
 import glob
@@ -89,7 +89,7 @@ def main():
     args = get_args()  # read arguments
     QUIET = args.quiet
 
-    # for files in the path - replace the title in the HTML file
+    # for files in the path - rewrite SLOC lines to new csv file
     for path in glob.iglob(args.path):
         get_sloc_lines(path, args.program, args.skip)
 
