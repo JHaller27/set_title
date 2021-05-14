@@ -1,6 +1,5 @@
 # Prepend a date and program name to each line of a csv, and output to a new file
 
-import argparse
 import glob
 from datetime import datetime
 from itertools import islice
@@ -62,9 +61,11 @@ def main(input_path: str, output_path: str, program: str, skip: int = 10, quiet:
     # get & parse arguments
     QUIET = quiet
 
+    # with a progress bar...
     # for files in the path - rewrite SLOC lines to new csv file
-    for in_path in glob.iglob(input_path):
-        get_sloc_lines(in_path, output_path, program, skip)
+    with typer.progressbar(glob.iglob(input_path)) as all_paths:
+        for in_path in all_paths:
+            get_sloc_lines(in_path, output_path, program, skip)
 
 
 if __name__ == '__main__':
