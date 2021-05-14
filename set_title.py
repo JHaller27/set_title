@@ -39,6 +39,10 @@ def get_args():
     parser.add_argument('--quiet', '-q', action='store_true',
                         help='Silence output')
 
+    # lines to skip
+    parser.add_argument('--skip', '-s', default=10, type=int,
+                        help='Number of lines to skip')
+
     args = parser.parse_args()
     return args
 
@@ -46,7 +50,7 @@ def get_args():
 # -------------------
 # get_sloc_lines
 # -------------------
-def get_sloc_lines(path, program):
+def get_sloc_lines(path, program, skip):
     # pre-pend each line with today's date and program name
     timestamp = datetime.now()
 
@@ -57,7 +61,7 @@ def get_sloc_lines(path, program):
     # open file to read
     with open(path, 'r') as fpR:
         count = 0
-        for line in islice(fpR, 10, None):
+        for line in islice(fpR, skip, None):
             # if this is a blank line we're done
             if line.strip() == "":
                 break
@@ -89,7 +93,7 @@ def main():
 
     # for files in the path - replace the title in the HTML file
     for path in glob.iglob(args.path):
-        get_sloc_lines(path, args.program)
+        get_sloc_lines(path, args.program, args.skip)
 
 
 if __name__ == '__main__':
