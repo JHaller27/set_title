@@ -59,8 +59,8 @@ def get_sloc_lines(path, program, skip):
     yyyymmddDate = timestamp.strftime("%Y%m%d")
 
     log(f'{path} -> ', end='')
-    # open file to read
-    with open(path, 'r') as fpR:
+    # open file to read and file to append - TBD filename
+    with open(path, 'r') as fpR, open(f"new.csv", "a") as fpA:
         count = 0
         for line in islice(fpR, skip, None):
             # if this is a blank line we're done
@@ -72,10 +72,8 @@ def get_sloc_lines(path, program, skip):
             # prepend line with today's date and program name
             new_text = f"{yyyymmddDate},{program},{line}"
 
-            # open file to append - TBD filename
-            with open("new.csv", 'a') as fpA:
-                # append line to
-                fpA.write(new_text)
+            # append line to
+            fpA.write(new_text)
 
     log(f'{count} lines parsed')
 
