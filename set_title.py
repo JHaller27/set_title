@@ -69,7 +69,7 @@ def get_sloc_lines(path, program, skip):
             count += 1
 
             # prepend line with today's date and program name
-            new_text = yyyymmddDate + "," + program + "," + line
+            new_text = f"{yyyymmddDate},{program},{line}"
 
             # open file to append - TBD filename
             with open("new.csv", 'a') as fpA:
