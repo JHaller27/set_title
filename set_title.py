@@ -3,6 +3,7 @@
 import argparse
 import glob
 from datetime import datetime
+from itertools import islice
 
 # -------------------
 # data definitions
@@ -56,20 +57,12 @@ def get_sloc_lines(path, program):
     # open file to read
     with open(path, 'r') as fpR:
         count = 0
-        for line in fpR:
-            count += 1
-
-            # if line is empty - end of file; get out of loop
-            if not line:
-                break
-
-            # SLOC lines start at line 10
-            if count < 10:
-                continue
-
+        for line in islice(fpR, 10, None):
             # if this is a blank line we're done
-            if line.find(",") < 0:
+            if line.strip() == "":
                 break
+
+            count += 1
 
             # prepend line with today's date and program name
             new_text = yyyymmddDate + "," + program + "," + line
@@ -79,7 +72,7 @@ def get_sloc_lines(path, program):
                 # append line to
                 fpA.write(new_text)
 
-    log(f'{count} lines read')
+    log(f'{count} lines parsed')
 
 # -------------------
 # main
