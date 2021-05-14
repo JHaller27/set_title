@@ -55,11 +55,11 @@ def get_sloc_lines(in_path, out_path, program, skip):
 # main
 # -------------------
 def main(
-    input_path: str = typer.Argument(..., help="Path to file to replace (glob-patterns supported)"),
-    output_path: str = typer.Argument(..., help="Path to new file to write to"),
-    program: str = typer.Argument(..., help="Program name (eg 737MAX_SCE)"),
-    skip: int = typer.Option(10, "--skip", "-s", help="Number of lines to skip"),
-    quiet: bool = typer.Option(False, "--quiet", "-q", help="Silence output"),
+    input_path: str =   typer.Argument(..., help="Path to file to replace (glob-patterns supported)"),
+    output_path: str =  typer.Argument(..., help="Path to new file to write to"),
+    program: str =      typer.Argument(..., help="Program name (eg 737MAX_SCE)"),
+    skip: int =         typer.Option(10, "--skip", "-s", help="Number of lines to skip"),
+    quiet: bool =       typer.Option(False, "--quiet", "-q", help="Silence output"),
 ):
     # main function
     global QUIET
